@@ -10,7 +10,8 @@ SRCS = $(SRCDIR)/main.c \
        $(SRCDIR)/arquivo.c \
        $(SRCDIR)/eventos.c \
        $(SRCDIR)/historico.c \
-       $(SRCDIR)/ui.c
+       $(SRCDIR)/ui.c \
+       $(SRCDIR)/menus.c
 
 OBJS = $(OBJDIR)/main.o \
        $(OBJDIR)/item.o \
@@ -18,7 +19,8 @@ OBJS = $(OBJDIR)/main.o \
        $(OBJDIR)/arquivo.o \
        $(OBJDIR)/eventos.o \
        $(OBJDIR)/historico.o \
-       $(OBJDIR)/ui.o
+       $(OBJDIR)/ui.o \
+       $(OBJDIR)/menus.o
 
 all: $(OBJDIR) $(TARGET)
 

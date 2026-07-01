@@ -7,7 +7,7 @@
 
 #define LARGURA_CAIXA 42
 
-static void imprimir_borda(void)
+void imprimir_borda(void)
 {
     printf("+");
     for (int i = 0; i < LARGURA_CAIXA; i++)
@@ -15,7 +15,7 @@ static void imprimir_borda(void)
     printf("+\n");
 }
 
-static void imprimir_linha_titulo(const char *titulo, const char *cor)
+void imprimir_linha_titulo(const char *titulo, const char *cor)
 {
     int len = (int)strlen(titulo);
     int espaco = LARGURA_CAIXA - len;
@@ -30,7 +30,7 @@ static void imprimir_linha_titulo(const char *titulo, const char *cor)
     printf("%*s|\n", dir, "");
 }
 
-static void imprimir_linha_opcao(const char *texto)
+void imprimir_linha_opcao(const char *texto)
 {
     int len = (int)strlen(texto);
     int dir = LARGURA_CAIXA - len;

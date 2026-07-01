@@ -3,19 +3,19 @@
 #include "eventos.h"
 #include "cores.h"
 
-static void callback_pocao_vida(Item *item, Inventario *inv)
+void callback_pocao_vida(Item *item, Inventario *inv)
 {
     (void)inv;
     printf("  " COR_VERDE "[Evento]" COR_RESET " Voce bebe %s e sente a vida voltar (+50 HP)!\n", item->nome);
 }
 
-static void callback_pocao_mana(Item *item, Inventario *inv)
+void callback_pocao_mana(Item *item, Inventario *inv)
 {
     (void)inv;
     printf("  " COR_VERDE "[Evento]" COR_RESET " Voce bebe %s e sua mana se restaura (+30 MP)!\n", item->nome);
 }
 
-static void callback_equipar(Item *item, Inventario *inv)
+void callback_equipar(Item *item, Inventario *inv)
 {
     (void)inv;
     if (item_tem_flag(item, FLAG_AMALDICOADO))
@@ -24,13 +24,13 @@ static void callback_equipar(Item *item, Inventario *inv)
         printf("  " COR_VERDE "[Evento]" COR_RESET " Voce equipa %s e se prepara para a batalha.\n", item->nome);
 }
 
-static void callback_item_raro(Item *item, Inventario *inv)
+void callback_item_raro(Item *item, Inventario *inv)
 {
     (void)inv;
     printf("  " COR_VERDE "[Evento]" COR_RESET " %s emite um brilho raro e pulsa com poder!\n", item->nome);
 }
 
-static void callback_generico(Item *item, Inventario *inv)
+void callback_generico(Item *item, Inventario *inv)
 {
     (void)inv;
     printf("  " COR_VERDE "[Evento]" COR_RESET " Voce interage com %s.\n", item->nome);

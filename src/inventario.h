@@ -43,3 +43,8 @@ void inventario_listar(const Inventario *inv);
 float inventario_peso_total(const Inventario *inv);
 
 void inventario_ordenar(Inventario *inv, CriterioOrdenacao criterio);
+
+int redimensionar(Item **vetor, int *capacidade);
+int comparar_itens(const Item *a, const Item *b, CriterioOrdenacao criterio);
+void quicksort_recursivo(Item *itens, int inicio, int fim, CriterioOrdenacao criterio);
+int vetor_adicionar(Item **itens, int *quantidade, int *capacidade, Item item);

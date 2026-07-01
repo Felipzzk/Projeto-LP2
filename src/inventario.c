@@ -4,7 +4,7 @@
 #include "inventario.h"
 #include "cores.h"
 
-static int redimensionar(Item **vetor, int *capacidade)
+int redimensionar(Item **vetor, int *capacidade)
 {
     int nova_cap = *capacidade * 2;
     Item *novo = realloc(*vetor, nova_cap * sizeof(Item));
@@ -15,7 +15,7 @@ static int redimensionar(Item **vetor, int *capacidade)
     return 1;
 }
 
-static int comparar_itens(const Item *a, const Item *b, CriterioOrdenacao criterio)
+int comparar_itens(const Item *a, const Item *b, CriterioOrdenacao criterio)
 {
     switch (criterio) {
         case ORD_NOME:
@@ -33,7 +33,7 @@ static int comparar_itens(const Item *a, const Item *b, CriterioOrdenacao criter
     }
 }
 
-static void quicksort_recursivo(Item *itens, int inicio, int fim, CriterioOrdenacao criterio)
+void quicksort_recursivo(Item *itens, int inicio, int fim, CriterioOrdenacao criterio)
 {
     if (inicio >= fim)
         return;
@@ -109,7 +109,7 @@ void catalogo_destruir(Catalogo *cat)
     free(cat);
 }
 
-static int vetor_adicionar(Item **itens, int *quantidade, int *capacidade, Item item)
+int vetor_adicionar(Item **itens, int *quantidade, int *capacidade, Item item)
 {
     if (*quantidade >= *capacidade) {
         if (!redimensionar(itens, capacidade))
