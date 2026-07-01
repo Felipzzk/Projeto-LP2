@@ -1,0 +1,45 @@
+#pragma once
+
+#include "item.h"
+
+#define CAPACIDADE_INICIAL 8
+
+typedef enum {
+    ORD_NOME,
+    ORD_PESO,
+    ORD_VALOR
+} CriterioOrdenacao;
+
+typedef struct {
+    Item *itens;
+    int quantidade;
+    int capacidade;
+} Inventario;
+
+typedef struct {
+    Item *itens;
+    int quantidade;
+    int capacidade;
+} Catalogo;
+
+Inventario *inventario_criar(void);
+void inventario_destruir(Inventario *inv);
+
+Catalogo *catalogo_criar(void);
+void catalogo_destruir(Catalogo *cat);
+
+int catalogo_adicionar(Catalogo *cat, Item item);
+int catalogo_remover_por_id(Catalogo *cat, int id);
+Item *catalogo_buscar_por_id(Catalogo *cat, int id);
+Item *catalogo_buscar_por_nome(Catalogo *cat, const char *nome);
+void catalogo_listar(const Catalogo *cat);
+
+int inventario_adicionar(Inventario *inv, Item item);
+int inventario_remover_por_id(Inventario *inv, int id);
+int inventario_remover_por_indice(Inventario *inv, int indice);
+Item *inventario_buscar_por_id(Inventario *inv, int id);
+Item *inventario_buscar_por_nome(Inventario *inv, const char *nome);
+void inventario_listar(const Inventario *inv);
+float inventario_peso_total(const Inventario *inv);
+
+void inventario_ordenar(Inventario *inv, CriterioOrdenacao criterio);

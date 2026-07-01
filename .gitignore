@@ -1,0 +1,14 @@
+# Compilacao
+build/
+inventario_rpg
+inventario_rpg.exe
+*.o
+*.exe
+
+# Save local do jogador (gerado em runtime)
+data/save_jogador.dat
+
+# Editor / sistema
+.vscode/
+*.swp
+*~

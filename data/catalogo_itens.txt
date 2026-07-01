@@ -1,0 +1,8 @@
+# Catalogo de Itens RPG
+# Formato: id|nome|peso|valor|tipo|flags
+1|Pocao de Vida|0.50|50|pocao|2
+2|Pocao de Mana|0.50|40|pocao_mp|2
+3|Espada Longa|3.00|200|arma|5
+4|Escudo de Ferro|5.00|150|armadura|1
+5|Anel Amaldicoado|0.10|500|misc|12
+6|Elixir Raro|0.30|300|pocao|6
