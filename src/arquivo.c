@@ -2,11 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include "arquivo.h"
+#include "cores.h"
+#include "ui.h"
 
 int catalogo_salvar_texto(const Catalogo *cat, const char *caminho)
 {
     if (cat == NULL || caminho == NULL)
         return 0;
+
+    ui_animacao("Registrando itens no grimorio");
 
     FILE *arq = fopen(caminho, "w");
     if (arq == NULL) {
@@ -25,7 +29,8 @@ int catalogo_salvar_texto(const Catalogo *cat, const char *caminho)
     }
 
     fclose(arq);
-    printf("Catalogo salvo em '%s' (%d itens).\n", caminho, cat->quantidade);
+    printf(COR_VERDE "O grimorio foi preservado em '%s' (%d itens).\n" COR_RESET,
+           caminho, cat->quantidade);
     return 1;
 }
 
@@ -33,6 +38,8 @@ int catalogo_carregar_texto(Catalogo *cat, const char *caminho)
 {
     if (cat == NULL || caminho == NULL)
         return 0;
+
+    ui_animacao("Consultando o grimorio antigo");
 
     FILE *arq = fopen(caminho, "r");
     if (arq == NULL) {
@@ -64,7 +71,8 @@ int catalogo_carregar_texto(Catalogo *cat, const char *caminho)
     }
 
     fclose(arq);
-    printf("Catalogo carregado de '%s' (%d itens).\n", caminho, carregados);
+    printf(COR_VERDE "Foram recuperados %d artefatos de '%s'.\n" COR_RESET,
+           carregados, caminho);
     return carregados > 0;
 }
 
@@ -72,6 +80,8 @@ int inventario_salvar_binario(const Inventario *inv, const char *caminho)
 {
     if (inv == NULL || caminho == NULL)
         return 0;
+
+    ui_animacao("Gravando sua mochila");
 
     FILE *arq = fopen(caminho, "wb");
     if (arq == NULL) {
@@ -84,7 +94,8 @@ int inventario_salvar_binario(const Inventario *inv, const char *caminho)
         fwrite(inv->itens, sizeof(Item), inv->quantidade, arq);
 
     fclose(arq);
-    printf("Save salvo em '%s' (%d itens).\n", caminho, inv->quantidade);
+    printf(COR_VERDE "Sua mochila foi selada em '%s' (%d itens).\n" COR_RESET,
+           caminho, inv->quantidade);
     return 1;
 }
 
@@ -92,6 +103,8 @@ int inventario_carregar_binario(Inventario *inv, const char *caminho)
 {
     if (inv == NULL || caminho == NULL)
         return 0;
+
+    ui_animacao("Reabrindo sua mochila");
 
     FILE *arq = fopen(caminho, "rb");
     if (arq == NULL) {
@@ -130,6 +143,7 @@ int inventario_carregar_binario(Inventario *inv, const char *caminho)
     }
 
     fclose(arq);
-    printf("Save carregado de '%s' (%d itens).\n", caminho, inv->quantidade);
+    printf(COR_VERDE "Bem-vindo de volta! %d itens retornaram para a mochila.\n" COR_RESET,
+           inv->quantidade);
     return 1;
 }

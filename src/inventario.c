@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "inventario.h"
+#include "cores.h"
 
 static int redimensionar(Item **vetor, int *capacidade)
 {
@@ -126,7 +127,7 @@ int catalogo_adicionar(Catalogo *cat, Item item)
         return 0;
 
     if (catalogo_buscar_por_id(cat, item.id) != NULL) {
-        printf("Erro: ja existe item com ID %d no catalogo.\n", item.id);
+        printf("Erro: ja existe item com ID %d no grimorio.\n", item.id);
         return 0;
     }
 
@@ -176,11 +177,11 @@ Item *catalogo_buscar_por_nome(Catalogo *cat, const char *nome)
 void catalogo_listar(const Catalogo *cat)
 {
     if (cat == NULL || cat->quantidade == 0) {
-        printf("Catalogo vazio.\n");
+        printf("Grimorio vazio.\n");
         return;
     }
 
-    printf("\n=== Catalogo de Itens (%d itens) ===\n", cat->quantidade);
+    printf("\n" COR_MAGENTA "=== Grimorio de Itens (%d itens) ===\n" COR_RESET, cat->quantidade);
     for (int i = 0; i < cat->quantidade; i++) {
         printf("[%d] ", i);
         item_imprimir(&cat->itens[i]);
@@ -253,7 +254,7 @@ void inventario_listar(const Inventario *inv)
         return;
     }
 
-    printf("\n=== Inventario (%d itens) ===\n", inv->quantidade);
+    printf("\n" COR_AMARELO "=== Inventario (%d itens) ===\n" COR_RESET, inv->quantidade);
     Item *ptr = inv->itens;
     for (int i = 0; i < inv->quantidade; i++, ptr++) {
         printf("[%d] ", i);

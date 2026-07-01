@@ -1,38 +1,39 @@
 #include <stdio.h>
 #include <string.h>
 #include "eventos.h"
+#include "cores.h"
 
 static void callback_pocao_vida(Item *item, Inventario *inv)
 {
     (void)inv;
-    printf("  [Evento] Voce bebeu %s e recuperou 50 HP!\n", item->nome);
+    printf("  " COR_VERDE "[Evento]" COR_RESET " Voce bebe %s e sente a vida voltar (+50 HP)!\n", item->nome);
 }
 
 static void callback_pocao_mana(Item *item, Inventario *inv)
 {
     (void)inv;
-    printf("  [Evento] Voce bebeu %s e recuperou 30 MP!\n", item->nome);
+    printf("  " COR_VERDE "[Evento]" COR_RESET " Voce bebe %s e sua mana se restaura (+30 MP)!\n", item->nome);
 }
 
 static void callback_equipar(Item *item, Inventario *inv)
 {
     (void)inv;
     if (item_tem_flag(item, FLAG_AMALDICOADO))
-        printf("  [Evento] Voce equipou %s... sinto uma energia sombria!\n", item->nome);
+        printf("  " COR_VERDE "[Evento]" COR_RESET " Voce empunha %s... uma energia sombria percorre seu corpo!\n", item->nome);
     else
-        printf("  [Evento] Voce equipou %s.\n", item->nome);
+        printf("  " COR_VERDE "[Evento]" COR_RESET " Voce equipa %s e se prepara para a batalha.\n", item->nome);
 }
 
 static void callback_item_raro(Item *item, Inventario *inv)
 {
     (void)inv;
-    printf("  [Evento] Item raro ativado: %s brilha intensamente!\n", item->nome);
+    printf("  " COR_VERDE "[Evento]" COR_RESET " %s emite um brilho raro e pulsa com poder!\n", item->nome);
 }
 
 static void callback_generico(Item *item, Inventario *inv)
 {
     (void)inv;
-    printf("  [Evento] Voce usou %s.\n", item->nome);
+    printf("  " COR_VERDE "[Evento]" COR_RESET " Voce interage com %s.\n", item->nome);
 }
 
 typedef struct {
@@ -78,7 +79,7 @@ int eventos_usar_item(Item *item, Inventario *inv)
         return 0;
 
     if (item_tem_flag(item, FLAG_AMALDICOADO))
-        printf("  AVISO: Este item esta amaldicoado!\n");
+        printf("  Cuidado! %s carrega uma maldicao antiga!\n", item->nome);
 
     if (item_tem_flag(item, FLAG_RARO))
         callback_item_raro(item, inv);
@@ -88,7 +89,7 @@ int eventos_usar_item(Item *item, Inventario *inv)
 
     if (item_tem_flag(item, FLAG_CONSUMIVEL)) {
         inventario_remover_por_id(inv, item->id);
-        printf("  Item consumido e removido do inventario.\n");
+        printf("  O item se desfaz em sua mao e desaparece da mochila.\n");
     }
 
     return 1;

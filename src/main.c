@@ -6,6 +6,8 @@
 #include "arquivo.h"
 #include "eventos.h"
 #include "historico.h"
+#include "cores.h"
+#include "ui.h"
 
 static void limpar_buffer(void)
 {
@@ -73,21 +75,24 @@ static void menu_cadastrar_item(Catalogo *cat)
     Item item = item_criar(id, nome, peso, valor, tipo, flags);
 
     if (catalogo_adicionar(cat, item))
-        printf("Item cadastrado com sucesso!\n");
+        printf(COR_VERDE "O item foi registrado no grimorio do reino!\n" COR_RESET);
 }
 
 static void menu_catalogo(Catalogo *cat)
 {
+    static const char *opcoes[] = {
+        "  1. Cadastrar item",
+        "  2. Listar grimorio",
+        "  3. Buscar por ID",
+        "  4. Buscar por nome",
+        "  5. Salvar grimorio (texto)",
+        "  6. Carregar grimorio (texto)",
+        "  0. Voltar"
+    };
+
     int op;
     do {
-        printf("\n--- Catalogo de Itens ---\n");
-        printf("  1. Cadastrar item\n");
-        printf("  2. Listar catalogo\n");
-        printf("  3. Buscar por ID\n");
-        printf("  4. Buscar por nome\n");
-        printf("  5. Salvar catalogo (texto)\n");
-        printf("  6. Carregar catalogo (texto)\n");
-        printf("  0. Voltar\n");
+        ui_imprimir_menu("Grimorio de Itens", COR_MAGENTA, opcoes, 7);
         op = ler_inteiro("Opcao: ");
 
         switch (op) {
@@ -97,7 +102,7 @@ static void menu_catalogo(Catalogo *cat)
                 int id = ler_inteiro("  ID: ");
                 Item *item = catalogo_buscar_por_id(cat, id);
                 if (item) item_imprimir(item);
-                else printf("Item nao encontrado.\n");
+                else printf("Nenhum artefato com esse ID foi encontrado.\n");
                 break;
             }
             case 4: {
@@ -107,69 +112,84 @@ static void menu_catalogo(Catalogo *cat)
                     limpar_buffer();
                     Item *item = catalogo_buscar_por_nome(cat, nome);
                     if (item) item_imprimir(item);
-                    else printf("Item nao encontrado.\n");
+                    else printf("Nenhum artefato com esse nome foi encontrado.\n");
                 } else limpar_buffer();
                 break;
             }
             case 5: catalogo_salvar_texto(cat, CAMINHO_CATALOGO); break;
             case 6: catalogo_carregar_texto(cat, CAMINHO_CATALOGO); break;
             case 0: break;
-            default: printf("Opcao invalida.\n");
+            default: printf("Essa passagem nao existe.\n");
         }
     } while (op != 0);
 }
 
 static void menu_inventario(Inventario *inv, Catalogo *cat, Historico *hist)
 {
+    static const char *opcoes[] = {
+        "  1. Adicionar item (do grimorio)",
+        "  2. Remover item",
+        "  3. Usar item",
+        "  4. Listar inventario",
+        "  5. Buscar por ID",
+        "  6. Buscar por nome",
+        "  7. Ordenar inventario",
+        "  0. Voltar"
+    };
+
     int op;
     do {
-        printf("\n--- Inventario do Jogador ---\n");
-        printf("  1. Adicionar item (do catalogo)\n");
-        printf("  2. Remover item\n");
-        printf("  3. Usar item\n");
-        printf("  4. Listar inventario\n");
-        printf("  5. Buscar por ID\n");
-        printf("  6. Buscar por nome\n");
-        printf("  7. Ordenar inventario\n");
-        printf("  0. Voltar\n");
+        ui_imprimir_menu("Inventario do Jogador", COR_AMARELO, opcoes, 8);
         op = ler_inteiro("Opcao: ");
 
         switch (op) {
             case 1: {
                 if (cat->quantidade == 0) {
-                    printf("Catalogo vazio. Cadastre itens primeiro.\n");
+                    printf("O grimorio esta vazio. Cadastre itens primeiro.\n");
                     break;
                 }
-                printf("\nItens disponiveis no catalogo:\n");
+                printf("\nArtefatos disponiveis no grimorio:\n");
                 catalogo_listar(cat);
-                int id = ler_inteiro("  ID do item no catalogo: ");
+                int id = ler_inteiro("  ID do item no grimorio: ");
                 Item *origem = catalogo_buscar_por_id(cat, id);
                 if (origem == NULL) {
-                    printf("Item nao encontrado no catalogo.\n");
+                    printf("Esse artefato nao consta no grimorio.\n");
                     break;
                 }
                 if (inventario_adicionar(inv, *origem)) {
                     historico_registrar(hist, "ADICIONOU", origem->id, origem->nome);
-                    printf("'%s' adicionado ao inventario.\n", origem->nome);
+                    printf(COR_VERDE "Voce guardou '%s' na mochila.\n" COR_RESET, origem->nome);
                 }
                 break;
             }
             case 2: {
+                if (inv->quantidade == 0) {
+                    printf("Sua mochila esta vazia.\n");
+                    break;
+                }
+                printf("\nItens na sua mochila:\n");
+                inventario_listar(inv);
                 int id = ler_inteiro("  ID do item: ");
                 Item *item = inventario_buscar_por_id(inv, id);
                 if (item && inventario_remover_por_id(inv, id)) {
                     historico_registrar(hist, "REMOVEU", id, item->nome);
-                    printf("Item removido.\n");
+                    printf(COR_VERDE "Voce largou o item fora da mochila.\n" COR_RESET);
                 } else {
-                    printf("Item nao encontrado.\n");
+                    printf("Esse item nao esta na sua mochila.\n");
                 }
                 break;
             }
             case 3: {
+                if (inv->quantidade == 0) {
+                    printf("Sua mochila esta vazia.\n");
+                    break;
+                }
+                printf("\nItens na sua mochila:\n");
+                inventario_listar(inv);
                 int id = ler_inteiro("  ID do item: ");
                 Item *item = inventario_buscar_por_id(inv, id);
                 if (item == NULL) {
-                    printf("Item nao encontrado.\n");
+                    printf("Esse item nao esta na sua mochila.\n");
                     break;
                 }
                 historico_registrar(hist, "USOU", item->id, item->nome);
@@ -181,7 +201,7 @@ static void menu_inventario(Inventario *inv, Catalogo *cat, Historico *hist)
                 int id = ler_inteiro("  ID: ");
                 Item *item = inventario_buscar_por_id(inv, id);
                 if (item) item_imprimir(item);
-                else printf("Item nao encontrado.\n");
+                else printf("Nenhum artefato com esse ID foi encontrado.\n");
                 break;
             }
             case 6: {
@@ -191,7 +211,7 @@ static void menu_inventario(Inventario *inv, Catalogo *cat, Historico *hist)
                     limpar_buffer();
                     Item *item = inventario_buscar_por_nome(inv, nome);
                     if (item) item_imprimir(item);
-                    else printf("Item nao encontrado.\n");
+                    else printf("Nenhum artefato com esse nome foi encontrado.\n");
                 } else limpar_buffer();
                 break;
             }
@@ -203,14 +223,14 @@ static void menu_inventario(Inventario *inv, Catalogo *cat, Historico *hist)
                     case 1: crit = ORD_NOME; break;
                     case 2: crit = ORD_PESO; break;
                     case 3: crit = ORD_VALOR; break;
-                    default: printf("Criterio invalido.\n"); continue;
+                    default: printf("Esse criterio de ordenacao nao existe.\n"); continue;
                 }
                 inventario_ordenar(inv, crit);
-                printf("Inventario ordenado.\n");
+                printf(COR_VERDE "A mochila foi reorganizada.\n" COR_RESET);
                 break;
             }
             case 0: break;
-            default: printf("Opcao invalida.\n");
+            default: printf("Essa passagem nao existe.\n");
         }
     } while (op != 0);
 }
@@ -230,19 +250,21 @@ int main(void)
     }
 
     eventos_inicializar();
+    ui_animacao("Carregando o mundo");
     catalogo_carregar_texto(catalogo, CAMINHO_CATALOGO);
 
     int op;
+    static const char *opcoes[] = {
+        "  1. Gerenciar grimorio de itens",
+        "  2. Gerenciar inventario do jogador",
+        "  3. Salvar jogo (binario)",
+        "  4. Carregar jogo (binario)",
+        "  5. Ver historico de transacoes",
+        "  0. Sair"
+    };
+
     do {
-        printf("\n========================================\n");
-        printf("   Sistema de Inventario RPG\n");
-        printf("========================================\n");
-        printf("  1. Gerenciar catalogo de itens\n");
-        printf("  2. Gerenciar inventario do jogador\n");
-        printf("  3. Salvar jogo (binario)\n");
-        printf("  4. Carregar jogo (binario)\n");
-        printf("  5. Ver historico de transacoes\n");
-        printf("  0. Sair\n");
+        ui_imprimir_menu("Sistema de Inventario RPG", COR_CIANO, opcoes, 6);
         op = ler_inteiro("Opcao: ");
 
         switch (op) {
@@ -252,11 +274,12 @@ int main(void)
             case 4: inventario_carregar_binario(inventario, CAMINHO_SAVE); break;
             case 5: historico_listar(historico); break;
             case 0:
+                ui_animacao("Selando seu progresso");
                 catalogo_salvar_texto(catalogo, CAMINHO_CATALOGO);
                 inventario_salvar_binario(inventario, CAMINHO_SAVE);
-                printf("Dados salvos. Ate logo!\n");
+                printf(COR_VERDE "Aventureiro, seus dados foram salvos. Ate a proxima!\n" COR_RESET);
                 break;
-            default: printf("Opcao invalida.\n");
+            default: printf("Essa passagem nao existe.\n");
         }
     } while (op != 0);
 

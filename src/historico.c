@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "historico.h"
+#include "cores.h"
 
 Historico *historico_criar(void)
 {
@@ -58,13 +59,17 @@ void historico_listar(const Historico *hist)
         return;
     }
 
-    printf("\n=== Historico de Transacoes (%d registros) ===\n", hist->quantidade);
+    printf("\n" COR_CIANO "=== Historico de Transacoes (%d registros) ===\n" COR_RESET, hist->quantidade);
     int i = 1;
     const NoHistorico *atual = hist->inicio;
     while (atual != NULL) {
-        printf("  %d. [%s] ID %d - %s\n",
-               i++, atual->acao, atual->item_id, atual->item_nome);
+        const char *cor_acao = COR_RESET;
+        if (strcmp(atual->acao, "ADICIONOU") == 0)
+            cor_acao = COR_VERDE;
+
+        printf("  %d. [%s%s%s] ID %d - %s\n",
+               i++, cor_acao, atual->acao, COR_RESET, atual->item_id, atual->item_nome);
         atual = atual->proximo;
     }
-    printf("==============================================\n");
+    printf(COR_CIANO "==============================================\n" COR_RESET);
 }
