@@ -76,6 +76,7 @@ Inventario *inventario_criar(void)
     return inv;
 }
 
+
 void inventario_destruir(Inventario *inv)
 {
     if (inv == NULL)

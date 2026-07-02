@@ -14,13 +14,10 @@ typedef struct {
     Item *itens;
     int quantidade;
     int capacidade;
-} Inventario;
+} VItens;
 
-typedef struct {
-    Item *itens;
-    int quantidade;
-    int capacidade;
-} Catalogo;
+typedef VItens Inventario;
+typedef VItens Catalogo;
 
 Inventario *inventario_criar(void);
 void inventario_destruir(Inventario *inv);

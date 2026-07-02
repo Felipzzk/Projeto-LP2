@@ -49,10 +49,6 @@ static EntradaDispatch tabela_dispatch[] = {
     { NULL,       NULL                 }
 };
 
-void eventos_inicializar(void)
-{
-    /* Tabela estatica ja inicializada; ponto de extensao futuro. */
-}
 
 CallbackItem eventos_obter_callback(const Item *item)
 {

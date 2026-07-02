@@ -32,10 +32,18 @@ unsigned char ler_flags(void)
     int op;
 
     printf("  Flags (0=nao, 1=sim para cada):\n");
-    printf("    Equipavel? "); scanf("%d", &op); if (op) flags |= FLAG_EQUIPAVEL;
-    printf("    Consumivel? "); scanf("%d", &op); if (op) flags |= FLAG_CONSUMIVEL;
-    printf("    Raro? ");      scanf("%d", &op); if (op) flags |= FLAG_RARO;
-    printf("    Amaldicoado? "); scanf("%d", &op); if (op) flags |= FLAG_AMALDICOADO;
+    printf("    Equipavel? ");
+    scanf("%d", &op);
+    if (op) flags |= FLAG_EQUIPAVEL;
+    printf("    Consumivel? ");
+    scanf("%d", &op);
+    if (op) flags |= FLAG_CONSUMIVEL;
+    printf("    Raro? ");
+    scanf("%d", &op);
+    if (op) flags |= FLAG_RARO;
+    printf("    Amaldicoado? ");
+    scanf("%d", &op);
+    if (op) flags |= FLAG_AMALDICOADO;
     limpar_buffer();
     return flags;
 }
@@ -43,7 +51,10 @@ unsigned char ler_flags(void)
 void menu_cadastrar_item(Catalogo *cat)
 {
     int id = ler_inteiro("  ID do item: ");
-    if (id < 0) { printf("ID invalido.\n"); return; }
+    if (id < 0) {
+    printf("ID invalido.\n");
+    return;
+    }
 
     if (catalogo_buscar_por_id(cat, id) != NULL) {
         printf("Ja existe item com esse ID.\n");
@@ -55,18 +66,27 @@ void menu_cadastrar_item(Catalogo *cat)
     int valor;
 
     printf("  Nome: ");
-    if (scanf("%49[^\n]", nome) != 1) { limpar_buffer(); return; }
+    if (scanf("%49[^\n]", nome) != 1) {
+    limpar_buffer();
+    return;
+    }
     limpar_buffer();
 
     printf("  Peso: ");
-    if (scanf("%f", &peso) != 1) { limpar_buffer(); return; }
+    if (scanf("%f", &peso) != 1) {
+    limpar_buffer();
+    return;
+    }
     limpar_buffer();
 
     valor = ler_inteiro("  Valor: ");
     if (valor < 0) return;
 
     printf("  Tipo (pocao, pocao_mp, arma, armadura, misc): ");
-    if (scanf("%19[^\n]", tipo) != 1) { limpar_buffer(); return; }
+    if (scanf("%19[^\n]", tipo) != 1) {
+    limpar_buffer();
+    return;
+    }
     limpar_buffer();
 
     unsigned char flags = ler_flags();

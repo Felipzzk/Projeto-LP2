@@ -6,3 +6,4 @@
 4|Escudo de Ferro|5.00|150|armadura|1
 5|Anel Amaldicoado|0.10|500|misc|12
 6|Elixir Raro|0.30|300|pocao|6
+7|Espada Demoniaca|20.00|5000|arma|13

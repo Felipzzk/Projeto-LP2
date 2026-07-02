@@ -20,7 +20,6 @@ int main(void)
         return 1;
     }
 
-    eventos_inicializar();
     ui_animacao("Carregando o mundo");
     catalogo_carregar_texto(catalogo, CAMINHO_CATALOGO);
 
