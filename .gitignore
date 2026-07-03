@@ -6,7 +6,7 @@ inventario_rpg.exe
 *.exe
 
 # Save local do jogador (gerado em runtime)
-data/save_jogador.dat
+data/save_jogador.bin
 
 # Editor / sistema
 .vscode/

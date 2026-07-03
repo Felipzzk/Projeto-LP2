@@ -3,7 +3,7 @@
 #include "inventario.h"
 
 #define CAMINHO_CATALOGO "data/catalogo_itens.txt"
-#define CAMINHO_SAVE     "data/save_jogador.dat"
+#define CAMINHO_SAVE     "data/save_jogador.bin"
 
 int catalogo_salvar_texto(const Catalogo *cat, const char *caminho);
 int catalogo_carregar_texto(Catalogo *cat, const char *caminho);
