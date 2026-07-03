@@ -1,3 +1,4 @@
+// Lista encadeada que guarda tudo que o jogador fez (adicionou, removeu, usou)
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,6 +16,7 @@ Historico *historico_criar(void)
     return hist;
 }
 
+// Percorre a lista liberando cada nó
 void historico_destruir(Historico *hist)
 {
     if (hist == NULL)
@@ -29,6 +31,7 @@ void historico_destruir(Historico *hist)
     free(hist);
 }
 
+// Insere no início da lista (mais recente primeiro)
 void historico_registrar(Historico *hist, const char *acao, int item_id, const char *nome)
 {
     if (hist == NULL || acao == NULL)

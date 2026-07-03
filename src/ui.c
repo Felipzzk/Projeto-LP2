@@ -1,3 +1,4 @@
+// Visual do terminal — caixas, cores e animação de "carregando..."
 #define _DEFAULT_SOURCE
 #include <stdio.h>
 #include <string.h>
@@ -40,13 +41,14 @@ void imprimir_linha_opcao(const char *texto)
     printf("|%s%*s|\n", texto, dir, "");
 }
 
+// Imprime "Carregando..." com três pontinhos aparecendo aos poucos
 void ui_animacao(const char *texto)
 {
     printf("%s", texto);
     fflush(stdout);
 
     for (int i = 0; i < 3; i++) {
-        usleep(400000);
+        usleep(400000);  // 400ms entre cada ponto
         printf(".");
         fflush(stdout);
     }

@@ -1,3 +1,4 @@
+// O que acontece quando o jogador usa um item — cada tipo tem seu callback
 #include <stdio.h>
 #include <string.h>
 #include "eventos.h"
@@ -36,6 +37,7 @@ void callback_generico(Item *item, Inventario *inv)
     printf("  " COR_VERDE "[Evento]" COR_RESET " Voce interage com %s.\n", item->nome);
 }
 
+// Tabela que liga o tipo (string) à função certa
 typedef struct {
     const char *tipo;
     CallbackItem callback;
@@ -50,6 +52,7 @@ static EntradaDispatch tabela_dispatch[] = {
 };
 
 
+// Procura na tabela pelo tipo; se não achar, tenta pelas flags
 CallbackItem eventos_obter_callback(const Item *item)
 {
     if (item == NULL)
@@ -69,6 +72,7 @@ CallbackItem eventos_obter_callback(const Item *item)
     return callback_generico;
 }
 
+// Fluxo completo de "usar item": avisos, callback, e remove se for consumível
 int eventos_usar_item(Item *item, Inventario *inv)
 {
     if (item == NULL || inv == NULL)
@@ -83,6 +87,7 @@ int eventos_usar_item(Item *item, Inventario *inv)
     CallbackItem cb = eventos_obter_callback(item);
     cb(item, inv);
 
+    // Poções somem da mochila depois de usar
     if (item_tem_flag(item, FLAG_CONSUMIVEL)) {
         inventario_remover_por_id(inv, item->id);
         printf("  O item se desfaz em sua mao e desaparece da mochila.\n");

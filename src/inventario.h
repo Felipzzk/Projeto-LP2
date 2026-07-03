@@ -2,7 +2,7 @@
 
 #include "item.h"
 
-#define CAPACIDADE_INICIAL 8
+#define CAPACIDADE_INICIAL 8  // vetor começa pequeno e cresce com realloc
 
 typedef enum {
     ORD_NOME,
@@ -10,14 +10,15 @@ typedef enum {
     ORD_VALOR
 } CriterioOrdenacao;
 
+// Vetor dinâmico de itens — usado tanto no grimório quanto na mochila
 typedef struct {
     Item *itens;
     int quantidade;
     int capacidade;
 } VItens;
 
-typedef VItens Inventario;
-typedef VItens Catalogo;
+typedef VItens Inventario;  // mochila do jogador
+typedef VItens Catalogo;    // grimório (todos os itens do jogo)
 
 Inventario *inventario_criar(void);
 void inventario_destruir(Inventario *inv);

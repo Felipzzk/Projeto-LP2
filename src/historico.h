@@ -4,6 +4,7 @@
 
 #define TAM_ACAO 64
 
+// Nó da lista encadeada — cada registro é uma ação do jogador
 typedef struct NoHistorico {
     char acao[TAM_ACAO];
     int item_id;
@@ -12,7 +13,7 @@ typedef struct NoHistorico {
 } NoHistorico;
 
 typedef struct {
-    NoHistorico *inicio;
+    NoHistorico *inicio;  // aponta pro registro mais recente
     int quantidade;
 } Historico;
 

@@ -1,3 +1,4 @@
+// Menus interativos e leitura de entrada do usuário
 #include <stdio.h>
 #include <string.h>
 #include "menus.h"
@@ -7,6 +8,7 @@
 #include "cores.h"
 #include "ui.h"
 
+// Joga fora o que sobrou no stdin depois de um scanf
 void limpar_buffer(void)
 {
     int c;
@@ -26,6 +28,7 @@ int ler_inteiro(const char *prompt)
     return valor;
 }
 
+// Pergunta flag por flag e monta o byte com OR
 unsigned char ler_flags(void)
 {
     unsigned char flags = 0;
@@ -48,6 +51,7 @@ unsigned char ler_flags(void)
     return flags;
 }
 
+// Formulário pra cadastrar um item novo no grimório
 void menu_cadastrar_item(Catalogo *cat)
 {
     int id = ler_inteiro("  ID do item: ");
@@ -162,6 +166,7 @@ void menu_inventario(Inventario *inv, Catalogo *cat, Historico *hist)
 
         switch (op) {
             case 1: {
+                // Copia um item do grimório pra mochila
                 if (cat->quantidade == 0) {
                     printf("O grimorio esta vazio. Cadastre itens primeiro.\n");
                     break;
@@ -198,6 +203,7 @@ void menu_inventario(Inventario *inv, Catalogo *cat, Historico *hist)
                 break;
             }
             case 3: {
+                // Usar item dispara o callback certo (poção, arma, etc.)
                 if (inv->quantidade == 0) {
                     printf("Sua mochila esta vazia.\n");
                     break;
@@ -253,6 +259,7 @@ void menu_inventario(Inventario *inv, Catalogo *cat, Historico *hist)
     } while (op != 0);
 }
 
+// Loop principal — fica rodando até o jogador escolher sair (0)
 void menu_principal(Catalogo *catalogo, Inventario *inventario, Historico *historico)
 {
     int op;
@@ -276,6 +283,7 @@ void menu_principal(Catalogo *catalogo, Inventario *inventario, Historico *histo
             case 4: inventario_carregar_binario(inventario, CAMINHO_SAVE); break;
             case 5: historico_listar(historico); break;
             case 0:
+                // Ao sair, salva tudo automaticamente
                 ui_animacao("Selando seu progresso");
                 catalogo_salvar_texto(catalogo, CAMINHO_CATALOGO);
                 inventario_salvar_binario(inventario, CAMINHO_SAVE);

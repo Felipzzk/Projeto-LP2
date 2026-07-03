@@ -3,11 +3,13 @@
 #define TAM_NOME  50
 #define TAM_TIPO  20
 
+// Flags em bits — dá pra combinar (ex: raro + equipável = 5)
 #define FLAG_EQUIPAVEL   (1 << 0)
 #define FLAG_CONSUMIVEL  (1 << 1)
 #define FLAG_RARO        (1 << 2)
 #define FLAG_AMALDICOADO (1 << 3)
 
+// Struct base de todo item do jogo
 typedef struct {
     int id;
     char nome[TAM_NOME];

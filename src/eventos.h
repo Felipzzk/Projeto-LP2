@@ -3,6 +3,7 @@
 #include "item.h"
 #include "inventario.h"
 
+// Ponteiro de função — cada tipo de item tem sua reação ao usar
 typedef void (*CallbackItem)(Item *item, Inventario *inv);
 
 void callback_pocao_vida(Item *item, Inventario *inv);

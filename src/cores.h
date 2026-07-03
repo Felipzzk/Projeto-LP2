@@ -1,5 +1,6 @@
 #pragma once
 
+// Códigos ANSI pra colorir o terminal
 #define COR_RESET     "\033[0m"
 #define COR_VERDE     "\033[32m"
 #define COR_AMARELO   "\033[33m"

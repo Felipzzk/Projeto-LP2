@@ -4,6 +4,7 @@
 #include "inventario.h"
 #include "cores.h"
 
+// Dobra o tamanho do vetor quando enche
 int redimensionar(Item **vetor, int *capacidade)
 {
     int nova_cap = *capacidade * 2;
@@ -15,6 +16,7 @@ int redimensionar(Item **vetor, int *capacidade)
     return 1;
 }
 
+// Compara dois itens pelo critério escolhido (usado no quicksort)
 int comparar_itens(const Item *a, const Item *b, CriterioOrdenacao criterio)
 {
     switch (criterio) {
@@ -33,6 +35,7 @@ int comparar_itens(const Item *a, const Item *b, CriterioOrdenacao criterio)
     }
 }
 
+// Quicksort recursivo — pivo no último elemento
 void quicksort_recursivo(Item *itens, int inicio, int fim, CriterioOrdenacao criterio)
 {
     if (inicio >= fim)
@@ -110,6 +113,7 @@ void catalogo_destruir(Catalogo *cat)
     free(cat);
 }
 
+// Função genérica — serve pro grimório e pro inventário
 int vetor_adicionar(Item **itens, int *quantidade, int *capacidade, Item item)
 {
     if (*quantidade >= *capacidade) {
@@ -127,6 +131,7 @@ int catalogo_adicionar(Catalogo *cat, Item item)
     if (cat == NULL)
         return 0;
 
+    // Não pode ter dois itens com o mesmo ID
     if (catalogo_buscar_por_id(cat, item.id) != NULL) {
         printf("Erro: ja existe item com ID %d no grimorio.\n", item.id);
         return 0;
@@ -142,6 +147,7 @@ int catalogo_remover_por_id(Catalogo *cat, int id)
 
     for (int i = 0; i < cat->quantidade; i++) {
         if (cat->itens[i].id == id) {
+            // Desloca os itens pra esquerda pra fechar o buraco
             for (int j = i; j < cat->quantidade - 1; j++)
                 cat->itens[j] = cat->itens[j + 1];
             cat->quantidade--;
@@ -151,6 +157,7 @@ int catalogo_remover_por_id(Catalogo *cat, int id)
     return 0;
 }
 
+// Retorna ponteiro pro item dentro do vetor (ou NULL se não achar)
 Item *catalogo_buscar_por_id(Catalogo *cat, int id)
 {
     if (cat == NULL)
@@ -256,7 +263,7 @@ void inventario_listar(const Inventario *inv)
     }
 
     printf("\n" COR_AMARELO "=== Inventario (%d itens) ===\n" COR_RESET, inv->quantidade);
-    Item *ptr = inv->itens;
+    Item *ptr = inv->itens;  // percorre com ponteiro (aritmética de ponteiros)
     for (int i = 0; i < inv->quantidade; i++, ptr++) {
         printf("[%d] ", i);
         item_imprimir(ptr);

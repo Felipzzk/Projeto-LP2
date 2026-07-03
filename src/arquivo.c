@@ -1,3 +1,4 @@
+// Leitura e escrita de arquivos — texto pro grimório, binário pro save
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,6 +6,7 @@
 #include "cores.h"
 #include "ui.h"
 
+// Formato: id|nome|peso|valor|tipo|flags  (uma linha por item)
 int catalogo_salvar_texto(const Catalogo *cat, const char *caminho)
 {
     if (cat == NULL || caminho == NULL)
@@ -51,10 +53,11 @@ int catalogo_carregar_texto(Catalogo *cat, const char *caminho)
     int carregados = 0;
 
     while (fgets(linha, sizeof(linha), arq) != NULL) {
+        // Ignora comentários e linhas vazias
         if (linha[0] == '#' || linha[0] == '\n')
             continue;
 
-        linha[strcspn(linha, "\n")] = '\0';
+        linha[strcspn(linha, "\n")] = '\0';  // tira o \n do final
 
         int id, valor;
         unsigned int flags;
@@ -76,6 +79,7 @@ int catalogo_carregar_texto(Catalogo *cat, const char *caminho)
     return carregados > 0;
 }
 
+// Save binário: primeiro a quantidade, depois os structs Item em sequência
 int inventario_salvar_binario(const Inventario *inv, const char *caminho)
 {
     if (inv == NULL || caminho == NULL)
@@ -119,6 +123,7 @@ int inventario_carregar_binario(Inventario *inv, const char *caminho)
         return 0;
     }
 
+    // Se o save tem mais itens do que cabe, aumenta o vetor
     if (qtd > inv->capacidade) {
         Item *novo = realloc(inv->itens, qtd * sizeof(Item));
         if (novo == NULL) {
